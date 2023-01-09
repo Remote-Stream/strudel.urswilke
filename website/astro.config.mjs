@@ -30,7 +30,7 @@ export default defineConfig({
     mdx(options),
     tailwind(),
   ],
-  site: `urswilke.github.io`,
+  site: `https://urswilke.github.io`,
   base: '/strudel',
 });
 
