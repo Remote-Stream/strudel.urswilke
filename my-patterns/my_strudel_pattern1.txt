@@ -21,5 +21,5 @@ let pat3 = stack(bassdrum, hh, toms, bass, claps)
 let pat4 = stack(bassdrum, hh, toms_vw, bass, claps)
 
 // by replacing pat4 with one of the others defined (and then update) you can vary:
-pat3.fast(.5)
+pat4.fast(.5)
 
