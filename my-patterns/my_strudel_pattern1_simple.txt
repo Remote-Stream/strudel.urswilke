@@ -1,0 +1,12 @@
+// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+// by Urs Wilke
+stack(
+  s("bd bd bd bd").pan(".25 .5 .75 .5"),
+  s("~ hh:1 ~ hh:2 ~ hh:1 ~ hh:2").pan(".75 .5 .25 .5"),
+  s("<mt lt>(3,8,1)").vowel("<a e i <o u>>").mask("<0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1>"),
+  note("d2 <f2 <a2 a1>>").s('sawtooth').crush("<5 4 3.8 3.6>")
+  .attack(.1).decay(.1).sustain(.5).release(.3).room("<.5 1>").size("<1 2 4 8>"),
+  s("[~ cp:2] ~ cp:4 [cp?0.25]*4").mask("<0 0 0 0 0 0 0 1>")
+)
+.fast(.5)
+
