@@ -1,0 +1,25 @@
+// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+// by Urs Wilke
+// My first strudel beat patterns, made with the help of:
+// https://strudel.tidalcycles.org/learn/getting-started/
+
+// press play! :)
+
+let bassdrum = s("bd bd bd bd").pan(".25 .5 .75 .5");
+let hh = s("~ hh:1 ~ hh:2 ~ hh:1 ~ hh:2").pan(".75 .5 .25 .5");
+let toms = s("<mt:4 lt:3>(3,8,1)").gain(0.5)
+let toms_vw = s("<mt lt>(3,8,1)").vowel("<a e i <o u>>").mask("<0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1>");
+let bass0 = note("d2").s('sawtooth')
+  .attack(.1).decay(.1).sustain(.5).release(.3)
+let bass = note("d2 <f2 <a2 a1>>").s('sawtooth').crush("<5 4 3.8 3.6>")
+  .attack(.1).decay(.1).sustain(.5).release(.3).room("<.5 1>").size("<1 2 4 8>");
+let claps = s("[~ cp:2] ~ cp:4 [cp?0.25]*4").mask("<0 0 0 0 0 0 0 1>");
+
+let pat1 = stack(bassdrum, hh)
+let pat2 = stack(bassdrum, hh, bass0)
+let pat3 = stack(bassdrum, hh, toms, bass, claps)
+let pat4 = stack(bassdrum, hh, toms_vw, bass, claps)
+
+// by replacing pat4 with one of the others defined (and then update) you can vary:
+pat3.fast(.5)
+
