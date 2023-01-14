@@ -3,5 +3,5 @@
 // using the R script from this repository: https://github.com/urswilke/read_beats
 stack(
   "[bd ~ ~ ~] [~ ~ ~ ~] [~ ~ bd ~] [~ bd ~ ~]",
-  "[~ ~ ~ ~] [sn ~ ~ ~] [~ ~ ~ ~] [sn ~ ~ ~]",
+  "[~ ~ ~ ~] [sd ~ ~ ~] [~ ~ ~ ~] [sd ~ ~ ~]",
 ).s().slow(2)

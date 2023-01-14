@@ -5,5 +5,5 @@ stack(
   "[~ ~ ~ ac] [~ ~ ~ ac] [~ ~ ~ ac] [~ ~ ~ ac] ",
   "[~ ~ ~ ~] [~ ht ht ~] [~ ~ ~ ht] [~ ~ ~ ~] ",
   "[lt ~ ~ ~] [~ ~ ~ lt] [~ ~ ~ ~] [lt ~ ~ ~] ",
-  "[~ ~ sn sn] [sn ~ ~ ~] [sn sn sn ~] [~ ~ sn sn] ",
+  "[~ ~ sd sd] [sd ~ ~ ~] [sd sd sd ~] [~ ~ sd sd] ",
 ).s().slow(2)

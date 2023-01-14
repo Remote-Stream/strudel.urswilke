@@ -4,5 +4,5 @@
 stack(
   "[ac ~ ~ ~] [ac ~ ~ ~] [ac ~ ~ ~] [ac ~ ~ ~] ",
   "[bd ~ ~ ~] [~ ~ ~ bd] [bd ~ ~ ~] [~ ~ ~ ~] ",
-  "[ch ch ch ch] [ch ch ch ch] [ch ch ch ch] [ch ch ch ch] ",
+  "[hh hh hh hh] [hh hh hh hh] [hh hh hh hh] [hh hh hh hh] ",
 ).s().slow(2)

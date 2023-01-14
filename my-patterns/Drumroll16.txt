@@ -4,6 +4,6 @@
 stack(
   "[~ ~ ht ht] [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] ",
   "[~ ~ ~ ~] [~ ~ ~ ~] [mt mt ~ ~] [~ ~ ~ ~] ",
-  "[sn sn ~ ~] [sn ~ sn sn] [~ ~ sn ~] [sn sn sn sn] ",
+  "[sd sd ~ ~] [sd ~ sd sd] [~ ~ sd ~] [sd sd sd sd] ",
   "[~ ~ ~ ~] [cy ~ ~ ~] [~ ~ cy ~] [~ ~ ~ ~] ",
 ).s().slow(2)

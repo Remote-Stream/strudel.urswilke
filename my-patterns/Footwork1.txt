@@ -3,7 +3,7 @@
 // using the R script from this repository: https://github.com/urswilke/read_beats
 stack(
   "[bd ~ ~ bd] [~ ~ bd ~] [bd ~ ~ bd] [~ ~ bd ~]",
-  "[~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] [cl ~ ~ ~]",
-  "[~ ~ ch ~] [~ ~ ~ ~] [~ ~ ch ~] [~ ~ ~ ~]",
-  "[rm rm rm rm] [rm rm rm rm] [rm rm rm rm] [rm rm rm rm]",
+  "[~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] [cp ~ ~ ~]",
+  "[~ ~ hh ~] [~ ~ ~ ~] [~ ~ hh ~] [~ ~ ~ ~]",
+  "[rim rim rim rim] [rim rim rim rim] [rim rim rim rim] [rim rim rim rim]",
 ).s().slow(2)

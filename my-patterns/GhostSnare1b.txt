@@ -2,5 +2,5 @@
 // (licensed under GPL-3.0 license)
 // using the R script from this repository: https://github.com/urswilke/read_beats
 stack(
-  "[~ ~ ~ ~] [sn ~ ~ sn] [~ sn ~ ~] [sn ~ ~ ~] ",
+  "[~ ~ ~ ~] [sd ~ ~ sd] [~ sd ~ ~] [sd ~ ~ ~] ",
 ).s().slow(2)
