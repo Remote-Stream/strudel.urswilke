@@ -1,0 +1,10 @@
+// made by using the patterns from https://github.com/lvm/tidal-drum-patterns
+// (licensed under GPL-3.0 license)
+// using the R script from this repository: https://github.com/urswilke/read_beats
+stack(
+  "[~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ac ~] ",
+  "[~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ch ~] ",
+  "[~ ~ ~ ~] [~ ~ ~ ~] [~ ~ lt lt] [lt ~ ~ ~] ",
+  "[~ ~ ~ ~] [~ ~ mt mt] [mt ~ ~ ~] [~ ~ ~ ~] ",
+  "[sn ~ sn sn] [sn ~ ~ ~] [~ ~ ~ ~] [~ ~ sn ~] ",
+).s().slow(2)
