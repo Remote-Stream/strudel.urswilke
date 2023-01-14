@@ -29,7 +29,11 @@ add a mini repl with
 
 - `client:idle` is required to tell astro that the repl should be interactive, see [Client Directive](https://docs.astro.build/en/reference/directives-reference/#client-directives)
 - `tune`: be any valid pattern code
-- `withCanvas`: If set, a canvas will be rendered below that shows a pianoroll (WIP)
+- `punchcard`: if added, a punchcard / pianoroll visualization is renderd
+- `drawTime`: time window for drawing, defaults to `[0, 4]`
+- `canvasHeight`: height of the canvas, defaults to 100px
+
+See `mini-notation.mdx` for usage examples
 
 ## In-Source Documentation
 
@@ -47,6 +51,7 @@ Usage:
 
 - `name`: function name, as named with `@name` in jsdoc
 - `h`: level of heading. `0` will hide the heading. Hiding it allows using a manual heading which results in a nav link being generated in the right sidebar.
+- `hideDescription`: if set, the description will be hidden
 
 ### Writing jsdoc
 

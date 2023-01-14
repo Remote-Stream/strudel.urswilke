@@ -1,20 +1,25 @@
-import { pianoroll } from '@strudel.cycles/core';
 import { getAudioContext, webaudioOutput } from '@strudel.cycles/webaudio';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState, useCallback, useEffect } from 'react';
 import { useInView } from 'react-hook-inview';
 import 'tailwindcss/tailwind.css';
 import cx from '../cx';
 import useHighlighting from '../hooks/useHighlighting.mjs';
-import usePatternFrame from '../hooks/usePatternFrame.mjs';
 import useStrudel from '../hooks/useStrudel.mjs';
 import CodeMirror6, { flash } from './CodeMirror6';
 import { Icon } from './Icon';
 import styles from './MiniRepl.module.css';
 import './style.css';
+import { logger } from '@strudel.cycles/core';
 
 const getTime = () => getAudioContext().currentTime;
 
-export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, withCanvas = false, canvasHeight = 200 }) {
+export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, drawTime, punchcard, canvasHeight = 200 }) {
+  drawTime = drawTime || (punchcard ? [0, 4] : undefined);
+  const evalOnMount = !!drawTime;
+  const drawContext = useCallback(
+    !!drawTime ? (canvasId) => document.querySelector('#' + canvasId)?.getContext('2d') : null,
+    [drawTime],
+  );
   const {
     code,
     setCode,
@@ -29,25 +34,17 @@ export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, withCa
     togglePlay,
     stop,
     canvasId,
+    id: replId,
   } = useStrudel({
     initialCode: tune,
     defaultOutput: webaudioOutput,
+    editPattern: (pat) => (punchcard ? pat.punchcard() : pat),
     getTime,
+    evalOnMount,
+    drawContext,
+    drawTime,
   });
 
-  usePatternFrame({
-    pattern,
-    started: withCanvas && started,
-    getTime: () => scheduler.now(),
-    onDraw: (time, haps) => {
-      const ctx = document.querySelector('#' + canvasId).getContext('2d');
-      pianoroll({ ctx, time, haps, autorange: 1, fold: 1, playhead: 1 });
-    },
-  });
-
-  /*   useEffect(() => {
-    init && activateCode();
-  }, [init, activateCode]); */
   const [view, setView] = useState();
   const [ref, isVisible] = useInView({
     threshold: 0.01,
@@ -63,7 +60,7 @@ export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, withCa
     view,
     pattern,
     active: started && !activeCode?.includes('strudel disable-highlighting'),
-    getTime: () => scheduler.getPhase(),
+    getTime: () => scheduler.now(),
   });
 
   // set active pattern on ctrl+enter
@@ -86,12 +83,26 @@ export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, withCa
     }
   }, [enableKeyboard, pattern, code, evaluate, stop, view]);
 
+  const [log, setLog] = useState([]);
+  useLogger(
+    useCallback((e) => {
+      const { data } = e.detail;
+      const logId = data?.hap?.context?.id;
+      // const logId = data?.pattern?.meta?.id;
+      if (logId === replId) {
+        setLog((l) => {
+          return l.concat([e.detail]).slice(-10);
+        });
+      }
+    }, []),
+  );
+
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.header}>
         <div className={styles.buttons}>
           <button className={cx(styles.button, started ? 'sc-animate-pulse' : '')} onClick={() => togglePlay()}>
-            <Icon type={started ? 'pause' : 'play'} />
+            <Icon type={started ? 'stop' : 'play'} />
           </button>
           <button className={cx(isDirty ? styles.button : styles.buttonDisabled)} onClick={() => activateCode()}>
             <Icon type="refresh" />
@@ -102,7 +113,7 @@ export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, withCa
       <div className={styles.body}>
         {show && <CodeMirror6 value={code} onChange={setCode} onViewChanged={setView} />}
       </div>
-      {withCanvas && (
+      {drawTime && (
         <canvas
           id={canvasId}
           className="w-full pointer-events-none"
@@ -114,6 +125,28 @@ export function MiniRepl({ tune, hideOutsideView = false, enableKeyboard, withCa
           }}
         ></canvas>
       )}
+      {!!log.length && (
+        <div className="sc-bg-gray-800 sc-rounded-md sc-p-2">
+          {log.map(({ message }, i) => (
+            <div key={i}>{message}</div>
+          ))}
+        </div>
+      )}
     </div>
   );
+}
+
+// TODO: dedupe
+function useLogger(onTrigger) {
+  useEvent(logger.key, onTrigger);
+}
+
+// TODO: dedupe
+function useEvent(name, onTrigger, useCapture = false) {
+  useEffect(() => {
+    document.addEventListener(name, onTrigger, useCapture);
+    return () => {
+      document.removeEventListener(name, onTrigger, useCapture);
+    };
+  }, [onTrigger]);
 }
