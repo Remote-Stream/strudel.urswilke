@@ -8,14 +8,19 @@ await loadOrc('github:kunstmusik/csound-live-code/master/livecode.orc')
 
 stack(
   note("<Am7 C^7 Bm7b5 <Em7!1 [F^7 E^7 Bm7b5 E^7]>>/2".voicings('lefthand'))
+  .cutoff(sine.range(500,2000).round().slow(16))
   .euclidLegato(3,8).csound('SynHarp'),
-  note("<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>").ply("<4!4 8!3 2>").csound('Bass').gain("2 5"),
+  note("<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>").ply("<4!4 8!3 <6!3 2>>").csound('Bass').gain("4 3 5 3"),
   stack(
     s("bd*2"),
     s("[~ hh]*2"),
     s("~ <cp!15 [cp?0.25]*4>")
   ).bank('RolandTR909'),
-  s("mt:8(5,8,<1 5 2 6>)").bank('RolandTR909').velocity(sine.range(.7, .9).slow(16)).pan(sine.range(0.2, .8).slow(8)),
+  s("mt:8(5,8,<1 5 2 6>)").sometimesBy(0.2, x=>silence)
+    .bank('RolandTR909')
+    .velocity(sine.range(.7, .9).slow(16))
+    .pan(sine.range(0.3, .7).slow(6))
+    .cutoff(sine.range(100, 1000).slow(16)),
 )
 
 
