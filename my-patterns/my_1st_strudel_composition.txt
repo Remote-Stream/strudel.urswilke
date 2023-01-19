@@ -1,0 +1,46 @@
+// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+// by Urs Wilke
+// 
+// adapted from https://github.com/tidalcycles/strudel/blob/203ed8802493d53710eb6919b42ea4c0eba535e2/website/src/repl/tunes.mjs#L835
+// by Felix Roos
+// livecode.orc by Steven Yi
+
+
+await loadOrc('github:kunstmusik/csound-live-code/master/livecode.orc')
+
+// from: https://github.com/tidalcycles/strudel/issues/344
+function arrange(...sections) {
+  const total = sections.reduce((sum, [cycles]) => sum + cycles, 0)
+  sections = sections.map(([cycles, section]) => [cycles, section.fast(cycles)])
+  return timeCat(...sections).slow(total)
+}
+let chords = note("<Am7 C^7 Bm7b5 <Em7!1 [F^7 E^7 Bm7b5 E^7]>>/2".voicings('lefthand'))
+  .cutoff(sine.range(500,2000).round().slow(16))
+  .euclidLegato(3,8).csound('SynHarp')
+let bass0 =   note("<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>").ply("<4!4 8!3 2>").csound('Bass').gain("4 2 5 3")
+let bass = note("<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>").ply("<4!4 8!3 <6!3 2>>").csound('Bass').gain("4 2 5 3")
+
+let bd = s("bd*2")
+let hh = s("[~ hh]*2")
+let cp = s("~ <cp!15 [cp?0.25]*4>")
+let mt = s("mt:8(5,8,<1 5 2 6>)").sometimesBy(0.1, x=>silence)
+    .bank('RolandTR909')
+    .velocity(sine.range(.7, .9).slow(16))
+    .pan(sine.range(0.3, .7).slow(6))
+    .cutoff(sine.range(100, 1000).slow(16))
+
+
+arrange(
+  [16, bd], 
+  [16, stack(bd, hh)],
+  [16, stack(bd, hh, cp)],
+  [16, stack(bd, hh, cp, mt)],
+  [16, stack(bd, hh,     mt, bass0)],
+  [16, stack(bd, hh, cp, mt, bass0, chords)],
+  [32, stack(bd, hh, cp,     bass,  chords)],
+  [16, stack(bd, hh,     mt, bass0)],
+  [32, stack(bd, hh, cp,     bass,  chords)],
+  [16, stack(bd, hh, cp, mt)],
+  [16, stack(bd, hh, cp)],
+  [16, stack(bd, hh,     mt)],
+)
