@@ -27,11 +27,13 @@ let mt = s("mt:8(5,8,<1 5 2 6>)").sometimesBy(0.1, x=>silence)
     .bank('RolandTR909')
     .velocity(sine.range(.7, .9).slow(16))
     .pan(sine.range(0.3, .7).slow(6))
-    .cutoff(sine.range(100, 1000).slow(16))
+    .cutoff(sine.range(200, 1000).slow(16))
 
 
 arrange(
-  [16, bd], 
+  [14, bd], 
+  [1,  stack(bd, s("~ ~ ~ hh"))],
+  [1,  stack(bd, s("hh [~ hh]*3 ~ hh"))],
   [16, stack(bd, hh)],
   [16, stack(bd, hh, cp)],
   [16, stack(bd, hh, cp, mt)],
