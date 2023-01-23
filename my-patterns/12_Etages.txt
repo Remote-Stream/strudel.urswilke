@@ -1,6 +1,7 @@
 // licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
 // by Urs Wilke
 // 
+// await loadOrc('github:kunstmusik/csound-live-code/master/livecode.orc')
 let arp_pat1 = "<[0 1 2 1 0 2]!31 [0 1 2 3 2 3 2 1 0 1 2 3]>*<1 1 1 2 1 1 1 2 1 1 1 2 1 1 1 1>"
 stack(
   s("[bd:4 ~ ~] * 4").pan("<.65 .5 .35 .5>*2"),
@@ -19,7 +20,9 @@ stack(
   .gain("4"),
   note("<[a5,c5,e5] [c5,e5,g5] [b5,d5,f5] <[e5,g5,b5]!3 [f5,e5,b5,e5]>>")
     .arp(arp_pat1)
-    .csound('SynHarp')
-  .gain(perlin.range(.2, .4)),
+    .piano()
+    // .csound('SynHarp')
+    .gain(perlin.range(.2, .4)),
 ).slow(2)
+  .pianoroll()
 
