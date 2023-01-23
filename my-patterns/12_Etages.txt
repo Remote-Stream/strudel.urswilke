@@ -21,8 +21,5 @@ stack(
     .arp(arp_pat1)
     .csound('SynHarp')
   .gain(perlin.range(.2, .4)),
-  // note("<Am CM Bo <EM [FM EM Bo EM]>>".voicings('triads'))
-  // .cutoff(sine.range(500,2000).round().slow(16))
-  // .euclidLegato(5,12).csound('FM1')
 ).slow(2)
 
