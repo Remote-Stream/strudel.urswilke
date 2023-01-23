@@ -2,10 +2,29 @@
 // by Urs Wilke
 // 
 // await loadOrc('github:kunstmusik/csound-live-code/master/livecode.orc')
+
+await loadOrc('github:kunstmusik/csound-live-code/master/livecode.orc')
+
+// https://github.com/tidalcycles/strudel/issues/316#issuecomment-1363898470
+addVoicings('triads', {
+  '': ['1P 3M 5P 8P', '3M 5P 8P 10M', '5P 8P 10M 12P'],
+  M: ['1P 3M 5P 8P', '3M 5P 8P 10M', '5P 8P 10M 12P'],
+  m: ['1P 3m 5P 8P', '3m 5P 8P 10m', '5P 8P 10m 12P'],
+  o: ['1P 3m 5d 8P', '3m 5d 8P 10m', '5d 8P 10m 12d'],
+  aug: ['1P 3m 5A 8P', '3m 5A 8P 10M', '5A 8P 10m 12A'],
+}, ['C3', 'C5'])
+
+// from: https://github.com/tidalcycles/strudel/issues/344
+function arrange(...sections) {
+  const total = sections.reduce((sum, [cycles]) => sum + cycles, 0)
+  sections = sections.map(([cycles, section]) => [cycles, section.fast(cycles)])
+  return timeCat(...sections).slow(total)
+}
+
 let arp_pat1 = "<[0 1 2 1 0 2]!31 [0 1 2 3 2 3 2 1 0 1 2 3]>*<1 1 1 2 1 1 1 2 1 1 1 2 1 1 1 1>"
 stack(
   s("[bd:4 ~ ~] * 4").pan("<.65 .5 .35 .5>*2"),
-  // s("[~ [cp ~ ~]] * 2"),
+  s("[~ [cp ~ ~]] * 2"),
   s("[~ ~ hh] * 4").gain(.5).pan("<.25 .5 .75 .5>*2"),
   stack(
     s("lt:3(5, 12, 5)").gain(.3),
@@ -19,10 +38,12 @@ stack(
   .cutoff(perlin.range(100, 1500))
   .gain("4"),
   note("<[a5,c5,e5] [c5,e5,g5] [b5,d5,f5] <[e5,g5,b5]!3 [f5,e5,b5,e5]>>")
-    .arp(arp_pat1)
-    .piano()
+    .arp(arp_pat1).piano()
     // .csound('SynHarp')
-    .gain(perlin.range(.2, .4)),
+  .gain(perlin.range(.2, .4)),
+  note("<A C Bo <E [F E Bo E]>>".voicings('triads'))
+  .cutoff(sine.range(500,2000).round())
+  .euclidLegato(5,12).csound('FM1')
 ).slow(2)
   .pianoroll()
 
