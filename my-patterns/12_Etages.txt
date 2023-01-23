@@ -1,0 +1,28 @@
+// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+// by Urs Wilke
+// 
+let arp_pat1 = "<[0 1 2 1 0 2]!31 [0 1 2 3 2 3 2 1 0 1 2 3]>*<1 1 1 2 1 1 1 2 1 1 1 2 1 1 1 1>"
+stack(
+  s("[bd:4 ~ ~] * 4").pan("<.65 .5 .35 .5>*2"),
+  // s("[~ [cp ~ ~]] * 2"),
+  s("[~ ~ hh] * 4").gain(.5).pan("<.25 .5 .75 .5>*2"),
+  stack(
+    s("lt:3(5, 12, 5)").gain(.3),
+    "~!8 [cp*2] cp ~ cp"
+    .when("<1!7 0>", x => x.hush())
+    .s().gain(.5),    
+  ).sometimesBy(0.25, x=>silence),
+
+  "<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>"
+  .note()
+  .cutoff(perlin.range(100, 1500))
+  .gain("4"),
+  note("<[a5,c5,e5] [c5,e5,g5] [b5,d5,f5] <[e5,g5,b5]!3 [f5,e5,b5,e5]>>")
+    .arp(arp_pat1)
+    .csound('SynHarp')
+  .gain(perlin.range(.2, .4)),
+  // note("<Am CM Bo <EM [FM EM Bo EM]>>".voicings('triads'))
+  // .cutoff(sine.range(500,2000).round().slow(16))
+  // .euclidLegato(5,12).csound('FM1')
+).slow(2)
+
