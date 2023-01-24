@@ -1,3 +1,5 @@
+// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+// by Urs Wilke
 await loadOrc('github:kunstmusik/csound-live-code/master/livecode.orc')
 function arrange(...sections) {
   const total = sections.reduce((sum, [cycles]) => sum + cycles, 0)
@@ -54,28 +56,28 @@ let chords = note("<A C Bo <E [F E Bo E]>>".voicings('triads'))
 
 
 
-// stack(
-//   beat,
-//   claps,
-//   tom_claps,
-//   bass,
-//   arpeggio,
-//   chords,
-// ).slow(2)
-//   .pianoroll()
-
-
-arrange(
-  [8,  stack(beat, bass.gain("<1 1.5 2 2.5 3 3.5 4 4>"))],
-  [8,  stack(beat, bass, chords)],
-  [8,  stack(beat, bass, chords, tom_claps)],
-  [8,  stack(beat, bass,         tom_claps,           claps)],
-  [16, stack(beat, bass, chords, tom_claps, arpeggio, claps)],
-  [16, stack(beat, bass, chords, tom_claps,           claps)],
-  [16, stack(beat, bass, chords,            arpeggio, claps)],
-  [16, stack(beat, bass,         tom_claps, arpeggio, claps)],
+stack(
+  beat,
+  claps,
+  tom_claps,
+  bass,
+  arpeggio,
+  chords,
 ).slow(2)
   .pianoroll()
-  // .log()
+//  comment this ^^^, and 
+// uncomment this vvv to play composition...:
+
+// arrange(
+//   [8,  stack(beat, bass.gain("<1 1.5 2 2.5 3 3.5 4 4>"))],
+//   [8,  stack(beat, bass, chords)],
+//   [8,  stack(beat, bass, chords, tom_claps)],
+//   [8,  stack(beat, bass,         tom_claps,           claps)],
+//   [16, stack(beat, bass, chords, tom_claps, arpeggio, claps)],
+//   [16, stack(beat, bass, chords, tom_claps,           claps)],
+//   [16, stack(beat, bass, chords,            arpeggio, claps)],
+//   [16, stack(beat, bass,         tom_claps, arpeggio, claps)],
+// ).slow(2)
+//   .pianoroll()
 
 
