@@ -20,34 +20,33 @@ addVoicings('triads', {
 }, ['C3', 'C5'])
 let beat = stack(
   s("[bd:4 ~ ~] * 4").pan("<.65 .5 .35 .5>*2"),
-  s("[~ ~ hh] * 4").gain(.3).pan("<.25 .5 .75 .5>*2"),
+  s("[~ ~ hh] * 4").pan("<.25 .5 .75 .5>*2"),
 )
 let claps = s("[~ [cp ~ ~]] * 2")
 
 let tom_claps = stack(
-  s("lt:3(5, 12, 5)"),
+  s("lt:3(5, 12, 0)"),
   "~!8 [cp*2] cp ~ cp"
   .when("<1!7 0>", x => x.hush())
   .s(),    
 )
-  // .sometimesBy(0.25, x=>silence)
+  .sometimesBy(0.15, x=>silence)
   .gain(perlin.range(.4, .8))
 let bass = "<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>"
   .note()
   .cutoff(perlin.range(100, 1500))
   .gain("4")
 
-// let arp_pat1 = "<[0 1 2 1 0 2]!31 [0 1 2 3 2 3 2 1 0 1 2 3]>*<1 1 1 2 1 1 1 2 1 1 1 2 1 1 1 1>"
-let arp_pat1 = "<[0 1 0 1@2 2@2 1 0 0 1 2]!15 [0 1 1 2@2 3@2 4 5 6 6 7]>"
+
+let arp_pat1 = "[0 1 0 1@2 2@2 1 0 0 1 2] | [2 1 0 1@2 2@2 1 0 1 2 1] | [1 2 1 0@2 1@2 2 1 0 1 2] | [0 1 0 1@2 3@2 4 5 6 6 7]"
+// let arp_pat1 = "<[0 1 0 1@2 2@2 1 0 0 1 2]!15 [0 1 1 2@2 3@2 4 5 6 6 7]>"
 
 let arpeggio = note("<[a4,c5,e5] [c5,e5,g5] [b4,d5,f5] <[e5,g5,b5]!3 [e4,f4,e4,b4,d4,f4,b4,g#4]>>")
   .arp(arp_pat1)
-  // .piano()
-  .csound('SynHarp')
-  .gain(perlin.range(.4, .8))
-  // .sometimesBy(0.25, x=>silence)
+  .csound('Sub5')
+  .gain(perlin.range(2, 3))
 
-let chords =   note("<A C Bo <E [F E Bo E]>>".voicings('triads'))
+let chords = note("<A C Bo <E [F E Bo E]>>".voicings('triads'))
   .cutoff(sine.range(500,2000))
   .euclidRot(5, 12, 7)
   .csound('Squine1')
@@ -67,7 +66,7 @@ let chords =   note("<A C Bo <E [F E Bo E]>>".voicings('triads'))
 
 
 arrange(
-  [8,  stack(beat, bass.gain("<1 1.5 2 2.5 3 3.5 4 4>").attack(.1).decay(.1).sustain(.7).release(.1))],
+  [8,  stack(beat, bass.gain("<1 1.5 2 2.5 3 3.5 4 4>"))],
   [8,  stack(beat, bass, chords)],
   [8,  stack(beat, bass, chords, tom_claps)],
   [8,  stack(beat, bass,         tom_claps,           claps)],
