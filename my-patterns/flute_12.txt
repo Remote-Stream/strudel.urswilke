@@ -11,6 +11,12 @@ samples({
   bd: 'bd/BT0AADA.wav',
   hh: 'hh27/000_hh27closedhh.wav',
 }, 'https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/');
+samples({
+  tom26: 'machines/CasioRZ1/casiorz1-ht/Tom H.wav',
+  // tom31: 'machines/DoepferMS404/doepferms404-lt/Tom.wav',
+  // tom32: 'machines/EmuDrumulator/emudrumulator-ht/Tom H.wav',
+  // tom34: 'machines/EmuDrumulator/emudrumulator-mt/Tom M.wav',
+}, 'https://raw.githubusercontent.com/ritchse/tidal-drum-machines/main/');
 
 // https://github.com/tidalcycles/strudel/issues/316#issuecomment-1363898470
 addVoicings('triads', {
@@ -27,13 +33,14 @@ let beat = stack(
 let claps = s("[~ [cp ~ ~]] * 2")
 
 let tom_claps = stack(
-  s("lt:3(5, 12, 0)"),
+  s("tom26:3(5, 12, 0)")
+    .sometimesBy(0.15, x=>silence)
+    .gain(perlin.range(0.5, 1)),
   "~!8 [cp*2] cp ~ cp"
   .when("<1!7 0>", x => x.hush())
   .s(),    
 )
-  .sometimesBy(0.15, x=>silence)
-  .gain(perlin.range(.4, .8))
+
 let bass = "<A1 C2 B1 <E2!3 [F2 E2 B1 E2]>>"
   .note()
   .cutoff(perlin.range(100, 1500))
@@ -65,8 +72,7 @@ stack(
   chords,
 ).slow(2)
   .pianoroll()
-//  comment this ^^^, and 
-// uncomment this vvv to play composition...:
+
 
 // arrange(
 //   [8,  stack(beat, bass.gain("<1 1.5 2 2.5 3 3.5 4 4>"))],
