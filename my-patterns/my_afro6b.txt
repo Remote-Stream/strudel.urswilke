@@ -1,0 +1,31 @@
+await samples('https://shabda.ndre.gr/clap:10.json?strudel=1')
+await samples('https://shabda.ndre.gr/ht:10.json?licenses=by%2Cby-nc&strudel=1')
+await samples('https://shabda.ndre.gr/mt:5.json?licenses=by%2Cby-nc&strudel=1')
+await samples('https://shabda.ndre.gr/mt:10.json?strudel=1')
+await samples('https://shabda.ndre.gr/lt:10.json?strudel=1')
+
+// from: https://github.com/tidalcycles/strudel/issues/344
+function arrange(...sections) {
+  const total = sections.reduce((sum, [cycles]) => sum + cycles, 0)
+  sections = sections.map(([cycles, section]) => [cycles, section.fast(cycles)])
+  return timeCat(...sections).slow(total)
+}
+
+
+// made by modifying the pattern "Afro.6b" from https://github.com/lvm/tidal-drum-patterns
+// (licensed under GPL-3.0 license)
+let afro6b = stack(
+  "[bd ~ ~ ~]     [~]          [bd ~ ~ ~]   [~ ~ bd ~] ",
+  "[hh ~ hh hh]   [hh ~ hh ~]  [hh ~ hh ~]  [hh ~ hh ~] ",
+  "[~ ~ ~ clap:6] [~ ~ ht:1 ~] [~ ~ mt:4 ~] [clap:6 ~ lt:1 ~] ",
+)
+let afro6b2 = stack(
+  "[bd ~ ~ ~]     [~]          [bd ~ ~ ~]   [~ ~ bd ~] ",
+  "[hh ~ hh hh]   [~]          [hh*4]       [hh*4] ",
+  "[~ ~ ~ clap:6] [~ ~ ht:1 ~] [~ ~ mt:4 ~] [clap:6 ~ lt:1 ~] ",
+)
+
+arrange(
+  [3, afro6b],
+  [1, afro6b2],
+).s().slow(2)
