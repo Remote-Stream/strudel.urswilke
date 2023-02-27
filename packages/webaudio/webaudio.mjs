@@ -126,21 +126,24 @@ function getWorklet(ac, processor, params) {
 }
 
 // this function should be called on first user interaction (to avoid console warning)
-export function initAudio() {
+export async function initAudio() {
   if (typeof window !== 'undefined') {
     try {
-      getAudioContext().resume();
-      loadWorklets();
+      await getAudioContext().resume();
+      await loadWorklets();
     } catch (err) {
       console.warn('could not load AudioWorklet effects coarse, crush and shape', err);
     }
   }
 }
 
-export function initAudioOnFirstClick() {
-  document.addEventListener('click', function listener() {
-    initAudio();
-    document.removeEventListener('click', listener);
+export async function initAudioOnFirstClick() {
+  return new Promise((resolve) => {
+    document.addEventListener('click', async function listener() {
+      await initAudio();
+      resolve();
+      document.removeEventListener('click', listener);
+    });
   });
 }
 
@@ -190,21 +193,9 @@ function effectSend(input, effect, wet) {
 // export const webaudioOutput = async (t, hap, ct, cps) => {
 export const webaudioOutput = async (hap, deadline, hapDuration) => {
   const ac = getAudioContext();
-  /* if (isNote(hap.value)) {
-      // supports primitive hap values that look like notes
-      hap.value = { note: hap.value };
-    } */
-  if (typeof hap.value !== 'object') {
-    logger(
-      `hap.value "${hap.value}" is not supported by webaudio output. Hint: append .note() or .s() to the end`,
-      'error',
-    );
-    /*     throw new Error(
-      `hap.value "${hap.value}"" is not supported by webaudio output. Hint: append .note() or .s() to the end`,
-    ); */
-    return;
-  }
-  // calculate correct time (tone.js workaround)
+  hap.ensureObjectValue();
+
+  // calculate absolute time
   let t = ac.currentTime + deadline;
   // destructure value
   let {
