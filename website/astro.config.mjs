@@ -120,8 +120,8 @@ export default defineConfig({
       },
     }),
   ],
-  site,
-  base,
+  site: 'https://urswilke.github.io',
+  base: '/strudel',
   vite: {
     ssr: {
       // Example: Force a broken package to skip SSR processing, if needed
