@@ -120,8 +120,8 @@ export default defineConfig({
       },
     }),
   ],
-  site: 'https://urswilke.github.io',
-  base: '/strudel',
+  site: 'https://Remote-Stream.github.io',
+  base: '/strudel.urswilke',
   vite: {
     ssr: {
       // Example: Force a broken package to skip SSR processing, if needed
