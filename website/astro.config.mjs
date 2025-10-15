@@ -110,11 +110,12 @@ export default defineConfig({
       },
     }),
   ],
-  site,
-  base,
+  site: 'https://remote-stream.github.io',
+  base: '/',  // تغییر این خط
   vite: {
     ssr: {
       external: ['fraction.js'],
     },
   },
 });
+
